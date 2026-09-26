@@ -1,0 +1,50 @@
+[package]
+name = "avatar"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.89"
+description = "👦 A highly customizable avatar component for WASM frameworks like Yew, Dioxus, and Leptos."
+license = "MIT"
+keywords = ["avatar", "yew", "dioxus", "leptos", "avatar"]
+categories = ["web-programming", "science"]
+repository = "https://github.com/opensass/avatar"
+documentation = "https://docs.rs/avatar"
+authors = ["Mahmoud Harmouch <oss@wiseai.dev>"]
+exclude = [
+    "/assets",
+    "/examples",
+    ".*"
+]
+
+[dependencies]
+image-rs = { version = "0.1.2", optional = true }
+yew = { version = "0.23.0", default-features = false, optional = true }
+dioxus = { version = "0.7.10", optional = true }
+leptos = { version = "0.8.20", optional = true }
+dioxus-logger = { version = "0.7.10", optional = true }
+gloo-timers = { version = "0.4.0", features = ["futures"], optional = true }
+web-sys = { version = "0.3.106", features = ["HtmlImageElement"], optional = true }
+
+[features]
+yew = ["dep:yew", "image-rs/yew", "dep:web-sys"]
+dio = ["dioxus", "dioxus-logger", "image-rs/dio"]
+lep = ["leptos", "image-rs/lep", "gloo-timers"]
+
+[profile.release]
+opt-level = "z"
+debug = false
+lto = "thin"
+codegen-units = 1
+panic = "abort"
+strip = "symbols"
+incremental = false
+
+[badges]
+maintenance = { status = "actively-developed" }
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+[dev-dependencies]
+bump2version = "0.2.2"
